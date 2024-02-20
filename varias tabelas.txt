@@ -1,0 +1,163 @@
+create table cliente (
+   
+   codigo int,
+   nome varchar(50) not null,
+   estado char(2) not null,
+   email varchar(50) not null,
+   data_nascimento date not null,
+   primary key (codigo)
+
+);
+
+
+create table pedido (
+   
+   codigo int,
+   data date not null,
+   total float not null,
+   codigo_cliente int,
+   primary key (codigo),
+   foreign key (codigo_cliente) references cliente (codigo)
+
+);
+
+
+create table produto(
+
+   codigo int,
+   descricao varchar(20) not null,
+   preco_unitario float not null,
+   primary key (codigo)
+
+);
+
+
+create table ItemPedido(
+
+    codPed int NOT NULL,
+    codProd int NOT NULL,
+    quantidade int NOT NULL,
+    subtotal float NOT NULL,
+    primary key (codped, codprod),
+    Foreign Key (codPed) references Pedido(codigo),
+    Foreign Key (codProd) references Produto(codigo)
+    
+);
+
+
+create table endereco(
+
+   cep varchar(8) not null,
+   logradouro varchar(40) not null,
+   numero int,
+   codigo_cliente int unique,
+   foreign key (codigo_cliente) references cliente (codigo)
+
+);
+
+
+
+
+insert into cliente (codigo,nome,estado,email,data_nascimento) values (1,'maria da silva','sp','maria@particular.com.br',to_date('22/03/1960','dd/mm/yyyy')); 
+
+
+insert into endereco (cep,logradouro,numero,codigo_cliente) values ('02218020','rua dos anjos',222,1);
+
+
+insert into pedido (codigo,data,total,codigo_cliente) values (1,to_date('20/03/2021','dd/mm/yyyy'),30.50,1);
+insert into pedido (codigo,data,total,codigo_cliente) values (2,to_date('21/03/2021','dd/mm/yyyy'),73.00,1);
+insert into pedido (codigo,data,total,codigo_cliente) values (3,to_date('22/03/2021','dd/mm/yyyy'),147.49,1);
+
+
+insert into produto (codigo,descricao,preco_unitario) values (1,'arroz',9.99);
+insert into produto (codigo,descricao,preco_unitario) values (2,'feijao',4.99);
+insert into produto (codigo,descricao,preco_unitario) values (3,'macarrao',2.99);
+insert into produto (codigo,descricao,preco_unitario) values (4,'batata',1.99);
+insert into produto (codigo,descricao,preco_unitario) values (5,'cebola',0.99);
+
+
+insert into itempedido (codped,codprod,quantidade,subtotal) values (1,1,4,39.96);
+insert into itempedido (codped,codprod,quantidade,subtotal) values (1,4,3,7.96);
+insert into itempedido (codped,codprod,quantidade,subtotal) values (1,5,5,4.95);
+insert into itempedido (codped,codprod,quantidade,subtotal) values (2,1,4,39.96);
+insert into itempedido (codped,codprod,quantidade,subtotal) values (2,2,3,7.96);
+insert into itempedido (codped,codprod,quantidade,subtotal) values (2,3,5,4.95);
+insert into itempedido (codped,codprod,quantidade,subtotal) values (3,1,4,39.96);
+insert into itempedido (codped,codprod,quantidade,subtotal) values (3,4,3,7.96);
+insert into itempedido (codped,codprod,quantidade,subtotal) values (3,5,5,4.95);
+
+
+
+select * from cliente;
+
+select * from endereco;
+
+select * from pedido;
+
+select * from produto;
+
+select * from itempedido;
+
+
+
+select c.nome, p.data, p.total from cliente c, endereco e, pedido p, produto , itempedido i;
+
+
+select * from cliente c, pedido p where c.codigo=p.codigo_cliente;
+
+
+
+
+
+select * 
+      from 
+           cliente c, 
+           pedido p 
+      
+       where 
+            c.codigo=p.codigo_cliente and 
+            c.nome = 'Pedro Rocha';
+
+
+
+
+
+
+select c.nome, pe.codigo, pe.data, pr.descricao
+      from 
+           cliente c,
+           pedido pe,
+           itempedido i,
+           produto pr
+       where 
+            c.codigo = pe.codigo_cliente 
+            and pe.codigo = i.codped 
+            and pr.codigo = i.codprod
+            and c.nome = 'Pedro Rocha';
+
+
+
+
+/* padrao ansi92*/
+select pe.data, pr.descricao
+    
+      from
+       
+          cliente c
+           
+              inner join pedido pe on c.codigo = pe.codigo_cliente
+              inner join itempedido i on pe.codigo = i.codped
+              inner join produto pr on pr.codigo = i.codprod
+
+          where
+
+              c.nome = 'maria da silva';
+
+
+
+
+
+
+
+https://paste2.org/hZNKDwEt
+

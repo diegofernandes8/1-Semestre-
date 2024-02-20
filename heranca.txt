@@ -1,0 +1,273 @@
+CREATE TABLE Pessoa (
+
+   codigo int not null primary key,
+   tipo_pessoa int not null,
+   nome varchar (50) not null,
+   data_nascimento date not null,
+   matricula varchar (10),
+   sexo  char (1) not null,
+   cpf varchar (14) unique,
+   cnh varchar (11) unique,
+   cnpf varchar (18) unique,
+   data_contrato date,
+   foreign key (tipo_pessoa) references Tipo_pessoa (codigo)
+
+);
+
+
+
+CREATE TABLE Tipo_pessoa (
+
+   codigo int not null,
+   tipo varchar (20) not null   
+   
+);
+
+
+CREATE TABLE Alguel (
+
+   codigo int primary key,
+   dataPedido date,
+   dataEntrega date,
+   valortotal float,
+   codCarro int,
+   codPessoa int,
+   foreign key (codCarro) references Carro (codigo),
+   foreign key (codPessoa) references pessoa (codigo)
+   
+);
+
+
+CREATE TABLE Fabricante (
+
+   codigo int not null primary key,
+   marca varchar (50) unique not null
+
+);
+
+
+CREATE TABLE Modelo (
+
+   codigo_fabricante int  not null,
+   codigo int not null primary key,
+   modelo varchar (50) unique,
+   foreign key (codigo_fabricante) references Fabricante (codigo)
+
+);
+
+
+CREATE TABLE Carro (
+
+   codigo int not null primary key,
+   placa varchar (7) not null unique,
+   chassi varchar (16) not null unique,
+   cor varchar (20) not null,
+   codigo_modelo int not null,
+   foreign key (codigo_modelo) references Modelo (codigo)
+
+);
+
+
+CREATE TABLE Acessorio (
+
+   codigo int primary key,
+   acessorio varchar (50) unique
+
+);
+
+
+CREATE TABLE Carro_acessorio (
+
+   codCarro int,
+   codAcessorio int,
+   primary key (codCarro,codAcessorio), /* PRIMARY KEY COMPOSTA */
+   foreign key (codCarro) references Modelo (codigo),
+   foreign key (codAcessorio) references Acessorio (codigo)
+
+); 
+
+
+insert into Fabricante (codigo,marca) values (1,'volkswagen');
+insert into Fabricante (codigo,marca) values (2,'fiat');
+insert into Fabricante (codigo,marca) values (3,'ford');
+insert into Fabricante (codigo,marca) values (4,'chevrolet');
+
+insert into Modelo (codigo_fabricante,codigo,modelo) values (1,1,'gol');
+insert into Modelo (codigo_fabricante,codigo,modelo) values (1,2,'voyage');
+insert into Modelo (codigo_fabricante,codigo,modelo) values (2,3,'uno');
+insert into Modelo (codigo_fabricante,codigo,modelo) values (2,4,'palio');
+insert into Modelo (codigo_fabricante,codigo,modelo) values (3,5,'ka');
+insert into Modelo (codigo_fabricante,codigo,modelo) values (3,6,'ranger');
+insert into Modelo (codigo_fabricante,codigo,modelo) values (4,7,'onix');
+insert into Modelo (codigo_fabricante,codigo,modelo) values (4,8,'s10');
+
+insert into Carro (codigo,placa,chassi,cor,codigo_modelo) values (1,'BRA1S01','1BRSP101X1000001','preto',1);
+insert into Carro (codigo,placa,chassi,cor,codigo_modelo) values (2,'BRA1S11','1BRSP101X1000002','branco',1);
+insert into Carro (codigo,placa,chassi,cor,codigo_modelo) values (3,'BRA1S21','1BRSP101X1000003','preto',2);
+insert into Carro (codigo,placa,chassi,cor,codigo_modelo) values (4,'BRA1S31','1BRSP101X1000004','branco',2);
+insert into Carro (codigo,placa,chassi,cor,codigo_modelo) values (5,'BRA1S41','1BRSP101X1000005','preto',3);
+insert into Carro (codigo,placa,chassi,cor,codigo_modelo) values (6,'BRA1S51','1BRSP101X1000006','branco',3);
+insert into Carro (codigo,placa,chassi,cor,codigo_modelo) values (7,'BRA1S61','1BRSP101X1000007','preto',4);
+insert into Carro (codigo,placa,chassi,cor,codigo_modelo) values (8,'BRA1S71','1BRSP101X1000008','branco',4);
+insert into Carro (codigo,placa,chassi,cor,codigo_modelo) values (9,'BRA1S81','1BRSP101X1000009','branco',5);
+insert into Carro (codigo,placa,chassi,cor,codigo_modelo) values (10,'BRA1S91','1BRSP101X1000010','branco',5);
+insert into Carro (codigo,placa,chassi,cor,codigo_modelo) values (11,'BRA1S22','1BRSP101X1000011','preto',6);
+insert into Carro (codigo,placa,chassi,cor,codigo_modelo) values (12,'BRA1S23','1BRSP101X1000012','preto',6);
+insert into Carro (codigo,placa,chassi,cor,codigo_modelo) values (13,'BRA1S24','1BRSP101X1000013','branco',7);
+insert into Carro (codigo,placa,chassi,cor,codigo_modelo) values (14,'BRA1S25','1BRSP101X1000014','preto',7);
+insert into Carro (codigo,placa,chassi,cor,codigo_modelo) values (15,'BRA1S26','1BRSP101X1000015','branco',8);
+insert into Carro (codigo,placa,chassi,cor,codigo_modelo) values (16,'BRA1S27','1BRSP101X1000016','preto',8);
+
+insert into Acessorio (codigo,acessorio) values (1,'ar condicionado');
+insert into Acessorio (codigo,acessorio) values (2,'direção hidráulica');
+insert into Acessorio (codigo,acessorio) values (3,'retrovisores elétricos');
+insert into Acessorio (codigo,acessorio) values (4,'travas elétricas');
+insert into Acessorio (codigo,acessorio) values (5,'vidros elétricos');
+insert into Acessorio (codigo,acessorio) values (6,'sensor de estacionamento');
+insert into Acessorio (codigo,acessorio) values (7,'computador de bordo');
+insert into Acessorio (codigo,acessorio) values (8,'bancos em couro');
+
+insert into Carro_acessorio (codCarro,codAcessorio) values (1,1);
+insert into Carro_acessorio (codCarro,codAcessorio) values (1,2);
+insert into Carro_acessorio (codCarro,codAcessorio) values (1,3);
+insert into Carro_acessorio (codCarro,codAcessorio) values (1,4);
+insert into Carro_acessorio (codCarro,codAcessorio) values (1,5);
+insert into Carro_acessorio (codCarro,codAcessorio) values (2,1);
+insert into Carro_acessorio (codCarro,codAcessorio) values (2,2);
+insert into Carro_acessorio (codCarro,codAcessorio) values (2,3);
+insert into Carro_acessorio (codCarro,codAcessorio) values (2,4);
+insert into Carro_acessorio (codCarro,codAcessorio) values (2,5);
+insert into Carro_acessorio (codCarro,codAcessorio) values (2,6);
+insert into Carro_acessorio (codCarro,codAcessorio) values (2,7);
+insert into Carro_acessorio (codCarro,codAcessorio) values (2,8);
+insert into Carro_acessorio (codCarro,codAcessorio) values (3,1);
+insert into Carro_acessorio (codCarro,codAcessorio) values (3,2);
+insert into Carro_acessorio (codCarro,codAcessorio) values (3,3);
+insert into Carro_acessorio (codCarro,codAcessorio) values (3,4);
+insert into Carro_acessorio (codCarro,codAcessorio) values (3,5);
+insert into Carro_acessorio (codCarro,codAcessorio) values (4,1);
+insert into Carro_acessorio (codCarro,codAcessorio) values (4,2);
+insert into Carro_acessorio (codCarro,codAcessorio) values (4,3);
+insert into Carro_acessorio (codCarro,codAcessorio) values (4,4);
+insert into Carro_acessorio (codCarro,codAcessorio) values (4,5);
+insert into Carro_acessorio (codCarro,codAcessorio) values (4,6);
+insert into Carro_acessorio (codCarro,codAcessorio) values (4,7);
+insert into Carro_acessorio (codCarro,codAcessorio) values (4,8);
+insert into Carro_acessorio (codCarro,codAcessorio) values (5,1);
+insert into Carro_acessorio (codCarro,codAcessorio) values (5,2);
+insert into Carro_acessorio (codCarro,codAcessorio) values (5,3);
+insert into Carro_acessorio (codCarro,codAcessorio) values (5,4);
+insert into Carro_acessorio (codCarro,codAcessorio) values (5,5);
+insert into Carro_acessorio (codCarro,codAcessorio) values (6,1);
+insert into Carro_acessorio (codCarro,codAcessorio) values (6,2);
+insert into Carro_acessorio (codCarro,codAcessorio) values (6,3);
+insert into Carro_acessorio (codCarro,codAcessorio) values (6,4);
+insert into Carro_acessorio (codCarro,codAcessorio) values (6,5);
+insert into Carro_acessorio (codCarro,codAcessorio) values (6,6);
+insert into Carro_acessorio (codCarro,codAcessorio) values (6,7);
+insert into Carro_acessorio (codCarro,codAcessorio) values (6,8);
+insert into Carro_acessorio (codCarro,codAcessorio) values (7,1);
+insert into Carro_acessorio (codCarro,codAcessorio) values (7,2);
+insert into Carro_acessorio (codCarro,codAcessorio) values (7,3);
+insert into Carro_acessorio (codCarro,codAcessorio) values (7,4);
+insert into Carro_acessorio (codCarro,codAcessorio) values (7,5);
+insert into Carro_acessorio (codCarro,codAcessorio) values (8,1);
+insert into Carro_acessorio (codCarro,codAcessorio) values (8,2);
+insert into Carro_acessorio (codCarro,codAcessorio) values (8,3);
+insert into Carro_acessorio (codCarro,codAcessorio) values (8,4);
+insert into Carro_acessorio (codCarro,codAcessorio) values (8,5);
+insert into Carro_acessorio (codCarro,codAcessorio) values (8,6);
+insert into Carro_acessorio (codCarro,codAcessorio) values (8,7);
+insert into Carro_acessorio (codCarro,codAcessorio) values (8,8);
+
+insert into Tipo_pessoa (codigo,tipo) values (1,'motorista');
+insert into Tipo_pessoa (codigo,tipo) values (2,'funcionario');
+insert into Tipo_pessoa (codigo,tipo) values (3,'temporario');
+insert into Tipo_pessoa (codigo,tipo) values (4,'fornecedor');
+insert into Tipo_pessoa (codigo,tipo) values (5,'cliente');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

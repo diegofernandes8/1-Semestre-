@@ -1,0 +1,50 @@
+CREATE TABLE Paciente(
+
+   codigo int primary key not null,
+   nome varchar (50) not null
+   
+);
+
+
+CREATE TABLE Medico (
+
+   codigo int primary key not null,
+   nome varchar (50) not null,
+   CRM varchar (10) not null unique,
+   especialidade varchar (30) not null
+
+);
+
+
+CREATE TABLE Medicamento (
+
+   codigo int primary key not null,
+   medicamento varchar (50) not null
+
+);
+
+
+CREATE TABLE Consulta (
+
+   codMedico int not null,
+   codPaciente int not null,
+   codMedicamento int not null,
+   foreign key (codMedico) references Medico (codigo),
+   foreign key (codPaciente) references Paciente (codigo),
+   foreign key (codMedicamento) references Medicamento (codigo)
+
+);
+
+
+
+INSERT INTO Paciente (codigo,nome) VALUES (1,'maria');
+INSERT INTO Paciente (codigo,nome) VALUES (2,'jose');
+INSERT INTO Paciente (codigo,nome) VALUES (3,'jesus');
+
+INSERT INTO Medico (codigo,nome,CRM,especialidade) VALUES (1,'andre','7532145698','clinico geral');
+INSERT INTO Medico (codigo,nome,CRM,especialidade) VALUES (2,'filippe','7532145698','clinico geral');
+INSERT INTO Medico (codigo,nome,CRM,especialidade) VALUES (3,'andre','7532145698','clinico geral');
+
+INSERT INTO Paciente (codigo,nome) VALUES (1,'maria');
+INSERT INTO Paciente (codigo,nome) VALUES (1,'maria');
+INSERT INTO Paciente (codigo,nome) VALUES (1,'maria');
